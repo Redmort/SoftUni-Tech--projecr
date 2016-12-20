@@ -13,20 +13,20 @@
 
                         <th:block sec:authorize="isAuthenticated()" th:if="${user.isAuthor(article)}">
 
-                            <a class="author" th:text="${article.author.fullName}" th:href="@{/profile/}"></a>
+                            <a class="author pull-right" th:text="${article.author.fullName}" th:href="@{/profile/}"></a>
 
                         </th:block>
 
                         <th:block sec:authorize="isAuthenticated()" th:if="${!user.isAuthor(article)}">
 
-                            <a class="author" th:text="${article.author.fullName}"
+                            <a class="author pull-right" th:text="${article.author.fullName}"
                                th:href="@{/profile/{id}(id = ${article.getAuthor().getId()})}"></a>
 
                         </th:block>
 
                         <th:block sec:authorize="!isAuthenticated()">
 
-                            <a class="author" th:text="${article.author.fullName}" th:href="@{/login/}"></a>
+                            <a class="author pull-right" th:text="${article.author.fullName}" th:href="@{/login/}"></a>
 
                         </th:block>
 
