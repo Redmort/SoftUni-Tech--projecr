@@ -89,6 +89,9 @@ public class MessageController {
     @GetMapping("/inbox/{id}")
     @PreAuthorize("isAuthenticated()")
     public String inbox(@PathVariable Integer id, Model model){
+        if (!this.userRepository.exists(id)){
+            return "redirect:/";
+        }
 
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
                 .getAuthentication()
@@ -128,6 +131,10 @@ public class MessageController {
     @GetMapping("/inbox/subject/{id}")
     @PreAuthorize("isAuthenticated()")
     public String inboxSubject(@PathVariable Integer id, Model model){
+        if (!this.messageRepository.exists(id)){
+            return "redirect:/";
+        }
+
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
@@ -155,4 +162,79 @@ public class MessageController {
 
         return "base-layout";
     }
+
+    @GetMapping("/sent/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String sent(@PathVariable Integer id, Model model){
+        if (!this.userRepository.exists(id)){
+            return "redirect:/";
+        }
+
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        User user = this.userRepository.findByEmail(principal.getUsername());
+
+        User author = this.userRepository.findOne(id);
+
+
+        if (!(user.getId().equals(author.getId()))) {
+
+            return "redirect:/" ;
+        }
+
+        List<Message> messages = new ArrayList<>();
+        for (Message message : user.getSendMessages()){
+            messages.add(message);
+        }
+
+        Collections.sort(messages, new Comparator<Message>() {
+            @Override
+            public int compare(Message o1, Message o2) {
+                return o2.getDate().compareTo(o1.getDate());
+            }
+        });
+
+        model.addAttribute("user", user);
+        model.addAttribute("author", author);
+        model.addAttribute("messages", messages);
+        model.addAttribute("view", "message/sent");
+
+        return "base-layout";
+    }
+
+    @GetMapping("/sent/subject/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String sentSubject(@PathVariable Integer id, Model model){
+        if (!this.messageRepository.exists(id)){
+            return "redirect:/";
+        }
+
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        User user = this.userRepository.findByEmail(principal.getUsername());
+
+        Message message = this.messageRepository.findOne(id);
+
+        User author = message.getReceive();
+
+        User receive = message.getAuthor();
+
+        if (!(user.getId().equals(receive.getId()))) {
+
+            return "redirect:/" ;
+        }
+
+        model.addAttribute("receive", receive);
+        model.addAttribute("user", user);
+        model.addAttribute("message", message);
+        model.addAttribute("view", "message/sentSubject");
+
+        return "base-layout";
+    }
+
+
 }
