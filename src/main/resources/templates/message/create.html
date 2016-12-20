@@ -1,0 +1,32 @@
+<main>
+    <div class="container body-content span=8 offset=2">
+        <div class="well">
+            <form class="form-horizontal" th:action="@{/profile/message/create/{id}(id = ${messageUser.id})}" method="POST">
+                <fieldset>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="message_title">Message Title</label>
+                        <div class="col-sm-4 ">
+                            <input type="text" class="form-control" id="message_title" placeholder="Message Title"
+                                   name="title"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="message_content">Content</label>
+                        <div class="col-sm-6">
+                            <textarea class="form-control" rows="6" id="message_content" name="content"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <a class="btn btn-default" th:href="@{/profile/{id}(id = ${messageUser.id})}">Cancel</a>
+                            <input type="submit" class="btn btn-primary" value="Submit"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</main>

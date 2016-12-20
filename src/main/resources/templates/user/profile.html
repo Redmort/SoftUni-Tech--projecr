@@ -1,0 +1,81 @@
+<main>
+    <div class="container body-content snap=2 offset=8">
+        <div class="row">
+            <div class="well col-md-8">
+                <div class="col-md-4">
+
+                    <img  th:src="@{{picture}(picture=${profileUser.picture})}"  height="200" width="200"/>
+
+                    <form class="form-horizontal" th:action="@{/profile/editPicture}">
+                        <br/>
+                        <th:block sec:authorize="isAuthenticated()" th:if="${isThisUser}">
+                            <div class="col-sm-2">
+                                <input type="submit" class="btn btn-success btn-sm" value="Edit picture"/>
+                            </div>
+                        </th:block>
+                    </form>
+                </div>
+                <div class="col-md-8">
+                    <label class="control-label" for="name">Full name:</label>
+                    <span id="name" th:text="${profileUser.fullName}"></span>
+                    <br/>
+                    <label class="control-label" for="mail">E-mail:</label>
+                    <span id="mail" th:text="${profileUser.email}"></span>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <label class="control-label" for="content">Description:</label>
+                    <br/>
+                    <textarea class="form-control" rows="3" id="content" name="content" th:field="${profileUser.picture}"
+                              disabled="disabled"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="container body-container">
+        <button type="button" class="btn btn-primary pull-right" data-toggle="collapse" data-target="#article">Articles
+            <span class="badge" th:text="${articles.size()}"></span></button>
+        <th:block th:if="${isProfileUser}">
+        <a class="btn btn-default" th:href="@{/profile/message/create/{id}(id=${profileUser.id})}">Send message</a>
+        </th:block>
+        <div id="article" class="collapse">
+            <br/>
+            <br/>
+            <div class="row">
+                <th:block th:each="article : ${articles}">
+                    <div class="col-md-6">
+                        <article>
+                            <header>
+                                <h2 th:text="${article.title}"></h2>
+                            </header>
+
+                            <p th:text="${article.summary}"></p>
+
+                            <small class="author" th:text="${article.author.fullName}"></small>
+                            <a class="pull-left"><h6>Likes <span class="badge" th:text="${article.articleLike}"></span></h6></a>
+                            <div class="col-sm-4 col-sm-offset-0">
+                                <a class="pull-left"><h6>Comments <span class="badge"
+                                                                        th:text="${article.comments.size()}"></span></h6></a>
+                            </div>
+                            <br/>
+
+                            <footer>
+                                <div class="pull-right">
+                                    <small class="date-cell" th:text="${article.status}"></small>
+                                    <small class="date-cell"
+                                           th:text="${#dates.format(article.date, 'dd-MM-yyyy hh:mm')}"></small>
+                                </div>
+                                <br/>
+                                <div class="pull-right">
+                                    <a class="btn btn-default btn-xs"
+                                       th:href="@{/article/{id}(id=${article.id})}">Read more &raquo;</a>
+                                </div>
+                            </footer>
+                        </article>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</main>
