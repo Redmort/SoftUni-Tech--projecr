@@ -54,6 +54,8 @@ public class UserController {
 
         String picture = "/images/securelife-user.jpg";
 
+        String description = null;
+
         User user = new User(
                 userBindingModel.getEmail(),
                 userBindingModel.getFullName(),
@@ -169,6 +171,41 @@ public class UserController {
         return "redirect:/profile";
     }
 
+    @GetMapping("/profile/editDescription")
+    @PreAuthorize("isAuthenticated()")
+    public String editDescription(Model model){
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        User user = this.userRepository.findByEmail(principal.getUsername());
+
+        String description = user.getDescription();
+
+        model.addAttribute("description", description);
+        model.addAttribute("user", user);
+        model.addAttribute("view", "user/editDescription");
+
+        return "base-layout";
+    }
+
+    @PostMapping("/profile/editDescription")
+    @PreAuthorize("isAuthenticated()")
+    public String editDescriptionProcess(UserBindingModel userBindingModel){
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        User user = this.userRepository.findByEmail(principal.getUsername());
+
+        String description = userBindingModel.getDescription();
+
+        user.setDescription(description);
+
+        this.userRepository.saveAndFlush(user);
+
+        return "redirect:/profile";
+    }
 
 }
 

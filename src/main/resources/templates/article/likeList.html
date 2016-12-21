@@ -6,6 +6,7 @@
             <div class="col-md-12" th:each="user : ${names}">
                 <header>
                     <h6>
+                        <img class="img-rounded" th:src="@{{picture}(picture=${user.picture})}" height="25" width="25"/>
                         <a th:href="@{/profile/{id}(id=${user.id})}"
                            th:text="${user.fullName}">
                         </a>

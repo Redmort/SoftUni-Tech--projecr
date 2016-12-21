@@ -4,13 +4,13 @@
             <div class="well col-md-8">
                 <div class="col-md-4">
 
-                    <img  th:src="@{{picture}(picture=${profileUser.picture})}"  height="200" width="200"/>
+                    <img class="img-circle"  th:src="@{{picture}(picture=${profileUser.picture})}"  height="200" width="200"/>
 
                     <form class="form-horizontal" th:action="@{/profile/editPicture}">
                         <br/>
                         <th:block sec:authorize="isAuthenticated()" th:if="${isThisUser}">
                             <div class="col-sm-2">
-                                <input type="submit" class="btn btn-success btn-sm" value="Edit picture"/>
+                                <input type="submit" class="btn btn-primary btn-xs" value="Edit picture"/>
                             </div>
                         </th:block>
                     </form>
@@ -26,8 +26,20 @@
                     <br/>
                     <label class="control-label" for="content">Description:</label>
                     <br/>
-                    <textarea class="form-control" rows="3" id="content" name="content" th:field="${profileUser.picture}"
+                    <textarea class="form-control" rows="3" id="content" name="content" th:field="${profileUser.description}"
                               disabled="disabled"></textarea>
+
+                    <form class="form-horizontal" th:action="@{/profile/editDescription}">
+                        <br/>
+                        <div class="col-md-5">
+                        <th:block sec:authorize="isAuthenticated()" th:if="${isThisUser}">
+                            <div class="col-sm-2 pull-right">
+                                <input type="submit" class="btn btn-primary btn-xs" value="Edit description"/>
+                            </div>
+                        </th:block>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>

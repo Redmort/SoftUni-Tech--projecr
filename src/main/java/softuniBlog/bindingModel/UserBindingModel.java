@@ -20,6 +20,9 @@ public class UserBindingModel {
     @NotNull
     private MultipartFile picture;
 
+    @NotNull
+    private String description;
+
     public String getEmail() {
         return email;
     }
@@ -58,5 +61,13 @@ public class UserBindingModel {
 
     public void setPicture(MultipartFile picture) {
         this.picture = picture;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

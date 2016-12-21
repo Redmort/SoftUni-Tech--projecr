@@ -30,6 +30,7 @@ public class User {
     private Set<Message> receiveMessages;
 
 
+    private String description;
 
     private String picture;
 
@@ -39,6 +40,7 @@ public class User {
         this.password = password;
         this.fullName = fullName;
         this.picture = picture;
+        //this.description = description;
 
         this.roles = new HashSet<>();
         this.articles = new HashSet<>();
@@ -153,6 +155,15 @@ public class User {
 
     public void setReceiveMessages(Set<Message> receiveMessages) {
         this.receiveMessages = receiveMessages;
+    }
+
+    @Column(columnDefinition = "text", nullable = true)
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Transient
